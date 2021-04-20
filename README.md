@@ -1,4 +1,4 @@
-Lilu
+Lilu c
 ====
 
 [![Build Status](https://github.com/acidanthera/Lilu/workflows/CI/badge.svg?branch=master)](https://github.com/acidanthera/Lilu/actions) [![Scan Status](https://scan.coverity.com/projects/16137/badge.svg?flat=1)](https://scan.coverity.com/projects/16137)
